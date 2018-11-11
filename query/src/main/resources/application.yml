@@ -1,0 +1,39 @@
+spring:
+  cloud:
+      stream:
+        kafka:
+          binder:
+            brokers: localhost:9092
+            configuration:
+              commit:
+                interval:
+                  mms: 1000
+              default:
+                key:
+                  serde:  org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde:  org.apache.kafka.common.serialization.Serdes$StringSerde
+        bindings:
+          accounts-in:
+            destination: account
+            group: account-group
+            contentType: application/json
+            consumer:
+              durableSubscription: true
+  datasource:
+    url: jdbc:h2:mem:TEST;MVCC=true;DB_CLOSE_DELAY=-1;MODE=Oracle
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+server:
+  port: 8081
